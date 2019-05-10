@@ -10,6 +10,9 @@ const { compile, preprocess } = major_version >= 3
 	? require('svelte/compiler')
 	: require('svelte');
 
+const webpack_version = require('webpack/package.json').version;
+const major_webpack_version = +webpack_version[0];
+
 const pluginOptions = {
 	externalDependencies: true,
 	hotReload: true,
@@ -105,8 +108,12 @@ module.exports = function(source, map) {
 	const virtualModules = virtualModuleInstances.get(this._compiler);
 
 	this.cacheable();
-
-	const options = Object.assign({}, this.options, getOptions(this));
+	
+	const options = Object.assign(
+		{}, 
+		(major_webpack_version < 4 && major_version >= 3) ? undefined:this.options, 
+		getOptions(this)
+		);
 	const callback = this.async();
 
 	const isServer = this.target === 'node' || (options.generate && options.generate == 'ssr');

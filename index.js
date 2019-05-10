@@ -113,7 +113,7 @@ module.exports = function(source, map) {
 		{}, 
 		(major_webpack_version < 4 && major_version >= 3) ? undefined:this.options, 
 		getOptions(this)
-		);
+	);
 	const callback = this.async();
 
 	const isServer = this.target === 'node' || (options.generate && options.generate == 'ssr');
